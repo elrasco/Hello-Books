@@ -10,7 +10,8 @@ module.exports = {
     './client/index.jsx'
   ],
   output: {
-    path: path.join(__dirname, './client/dist/'),
+    // path: path.join(__dirname, './client/dist/'),
+    path: '/',
     publicPath: '/client/index.js',
     filename: 'bundle.js'
   },
@@ -33,7 +34,7 @@ module.exports = {
       'FIREBASE_PROJECTID',
       'FIREBASE_STORAGEBUCKET',
       'FIREBASE_STORAGEBUCKET',
-      'secretKey',
+      'secretKey'
     ]),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),

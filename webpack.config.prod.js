@@ -4,12 +4,10 @@ const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   cache: true,
-  entry: [
-    './client/index.jsx'
-  ],
+  entry: ['./client/index.jsx'],
   output: {
     path: path.join(__dirname, './client/dist/'),
-    publicPath: './client',
+    publicPath: '/',
     filename: 'bundle.js'
   },
   externals: {
@@ -52,7 +50,7 @@ module.exports = {
       compress: {
         warnings: false,
         drop_console: true
-      },
+      }
     })
   ],
   module: {

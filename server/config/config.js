@@ -4,8 +4,8 @@ dotenv.load();
 
 module.exports = {
   development: {
-    username: 'andeladeveloper',
-    password: '',
+    username: 'luca',
+    password: 'password',
     database: 'hellobooks',
     port: 5432,
     dialect: 'postgres'
