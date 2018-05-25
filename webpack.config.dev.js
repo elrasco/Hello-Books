@@ -11,7 +11,6 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, "./client/dist"),
-    publicPath: "/client/index.js",
     filename: "bundle.js"
   },
   externals: {
