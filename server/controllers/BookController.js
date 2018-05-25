@@ -1,11 +1,9 @@
-import database from '../models';
-import UserController from './UserController';
+import database from "../models";
+import UserController from "./UserController";
 
 const { checkValidUser } = UserController;
 
-const {
-  RentedBook, Book, Category, Notification
-} = database;
+const { RentedBook, Book, Category, Notification } = database;
 
 const BookController = {
   /**
@@ -22,28 +20,24 @@ const BookController = {
    */
   create(req, res) {
     return Book.create(req.userInput)
-      .then((book) => {
-        return res.status(201).send({
-          message: 'Book uploaded successfully',
-          book
-        });
-      })
+      .then(book =>
+        res.status(201).send({ message: "Book uploaded successfully", book })
+      )
       .catch(error => res.status(500).send(error));
   },
 
   /**
- * @description - Notifies the admin on any transaction
- *
- * @param {number} userId - User ID
- *
- * @param {String} username - Username
- *
- * @param {String} bookTitle - book title
- *
- * @param {String} type - type of notification
- *
- * @return { Promise } - Returns a Promise
- */
+   * @description - Notifies the admin on any transaction
+   *
+   * @param {number} userId - User ID
+   *postgres://127.0.0.1:8000/hello-books-test
+   *postgres://127.0.0.1:8000/hello-books-test
+   *postgres://127.0.0.1:8000/hello-books-test
+   * @param {String} username - book title
+   * @param {String} bookTitle - book title
+   * @param {String} type - type of notification
+   * @return { Promise } - Returns a Promise
+   */
   createNotification(userId, username, bookTitle, type) {
     return Notification.create({
       userId,
@@ -75,11 +69,11 @@ const BookController = {
     const currentDate = new Date();
     const after20days = currentDate.setDate(currentDate.getDate() + 20);
     return Book.findById(req.body.bookId)
-      .then((book) => {
+      .then(book => {
         if (book) {
           if (book.total === 0) {
             return res.status(200).send({
-              message: 'This book is not available for rent',
+              message: "This book is not available for rent",
               status: false
             });
           }
@@ -92,31 +86,37 @@ const BookController = {
             cover: book.cover,
             toReturnDate: after20days
           })
-            .then(() => Book.update(
-              {
-                total: book.total - 1
-              },
-              {
-                where: {
-                  id: req.body.bookId
+            .then(() =>
+              Book.update(
+                {
+                  total: book.total - 1
+                },
+                {
+                  where: {
+                    id: req.body.bookId
+                  }
                 }
-              }
-            ))
+              )
+            )
             .then(() => {
-              BookController
-                .createNotification(id, username, book.title, 'rented');
+              BookController.createNotification(
+                id,
+                username,
+                book.title,
+                "rented"
+              );
               return res.status(201).send({
-                message: 'You have successfully rented the book',
+                message: "You have successfully rented the book",
                 status: true,
                 rentedBook: book
               });
             });
         }
         return res.status(404).send({
-          message: 'Book not found'
+          message: "Book not found"
         });
       })
-      .catch((error) => {
+      .catch(error => {
         return res.status(500).send(error);
       });
   },
@@ -134,14 +134,14 @@ const BookController = {
     const limit = 10,
       offset = 0;
     Notification.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
       limit,
       offset
     })
-      .then((data) => {
+      .then(data => {
         res.status(200).send(data);
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).send(error);
       });
   },
@@ -172,14 +172,14 @@ const BookController = {
     }
 
     return Book.findAndCountAll({
-      order: [['title', 'ASC']],
+      order: [["title", "ASC"]],
       limit,
       offset
     })
-      .then((books) => {
+      .then(books => {
         if (books.count < 1) {
           res.status(404).send({
-            message: 'There is no book in the database'
+            message: "There is no book in the database"
           });
         } else {
           res.status(200).send(books);
@@ -203,23 +203,23 @@ const BookController = {
         name: req.body.name
       }
     })
-      .then((category) => {
+      .then(category => {
         if (category) {
           res.status(409).send({
-            message: 'Category with that name already exist'
+            message: "Category with that name already exist"
           });
         } else {
-          return Category.create(req.body).then((newCategory) => {
+          return Category.create(req.body).then(newCategory => {
             if (newCategory) {
               return res.status(201).send({
-                message: 'Category added successfully',
+                message: "Category added successfully",
                 newCategory
               });
             }
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).send(error);
       });
   },
@@ -248,10 +248,10 @@ const BookController = {
         userId
       }
     })
-      .then((books) => {
+      .then(books => {
         if (books.length < 1) {
           res.status(200).send({
-            message: 'No rented unreturned books'
+            message: "No rented unreturned books"
           });
         } else {
           res.status(200).send(books);
@@ -277,10 +277,10 @@ const BookController = {
       returning: true,
       plain: true
     })
-      .then((result) => {
+      .then(result => {
         res.status(200).send({
           book: result[1].dataValues,
-          message: 'Book updated successfully!'
+          message: "Book updated successfully!"
         });
       })
       .catch(error => res.status(500).send(error));
@@ -305,7 +305,7 @@ const BookController = {
     })
       .then(() => {
         res.status(200).send({
-          message: 'Book deleted successfully!',
+          message: "Book deleted successfully!",
           id: Number(req.params.bookId)
         });
       })
@@ -336,10 +336,10 @@ const BookController = {
         userId
       }
     })
-      .then((books) => {
+      .then(books => {
         if (books.length < 1) {
           res.status(200).send({
-            message: 'No rented books by this user'
+            message: "No rented books by this user"
           });
         } else {
           res.status(200).send(books);
@@ -381,7 +381,7 @@ const BookController = {
       }
     )
       .then(() =>
-        Book.findById(req.body.bookId).then((book) => {
+        Book.findById(req.body.bookId).then(book => {
           Book.update(
             {
               total: book.total + 1
@@ -394,14 +394,17 @@ const BookController = {
           ).then(() => {
             BookController.createNotification(
               userId,
-              username, book.title, 'return'
+              username,
+              book.title,
+              "return"
             );
             res.status(201).send({
-              message: 'Book returned successfully',
+              message: "Book returned successfully",
               book
             });
           });
-        }))
+        })
+      )
       .catch(error => res.status(500).send(error));
   },
 
@@ -419,7 +422,7 @@ const BookController = {
    */
   getCategory(req, res) {
     return Category.findAll({})
-      .then((category) => {
+      .then(category => {
         res.status(200).send(category);
       })
       .catch(error => res.status(500).send(error));
@@ -448,11 +451,11 @@ const BookController = {
           }
         ]
       },
-      order: [['title', 'ASC']],
+      order: [["title", "ASC"]],
       limit,
       offset
     })
-      .then((book) => {
+      .then(book => {
         res.status(200).send(book);
       })
       .catch(error => res.status(500).send(error));

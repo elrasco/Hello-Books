@@ -12,19 +12,19 @@ import {
   ADD_CATEGORY,
   GET_ALL_NOTIFICATIONS,
   RENT_BOOK
-} from '../actions/ActionTypes';
+} from "../actions/ActionTypes";
 
 const INITIAL_STATE = {
-  userExist: '',
+  userExist: "",
   count: 0,
   category: [],
   notifications: [],
-  error: '',
+  error: "",
   search: false,
-  message: '',
-  user: '',
+  message: "",
+  user: "",
   allRentedBooks: [],
-  content: '',
+  content: "",
   authenticated: false,
   data: []
 };
@@ -43,7 +43,7 @@ function bookReducer(state = INITIAL_STATE, action) {
     case ADD_BOOK:
       return {
         ...state,
-        message: 'Book added Successfully',
+        message: "Book added Successfully",
         data: state.data.concat([action.book])
       };
     case GET_ALL_BOOKS:
@@ -79,7 +79,7 @@ function bookReducer(state = INITIAL_STATE, action) {
     }
     case RETURN_RENTED_BOOK: {
       const returnedBooks = [];
-      state.allRentedBooks.map((book) => {
+      state.allRentedBooks.map(book => {
         if (book.bookId === action.data.id) {
           book.returned = true;
         }
@@ -93,7 +93,7 @@ function bookReducer(state = INITIAL_STATE, action) {
     }
     case EDIT_BOOK: {
       const editedBooks = [];
-      state.data.map((book) => {
+      state.data.map(book => {
         if (book.id === action.data.id) {
           editedBooks.push(action.data);
         } else {

@@ -3,20 +3,20 @@ import {
   SET_CURRENT_USER,
   EDIT_PROFILE,
   SET_API_STATUS
-} from '../actions/ActionTypes';
+} from "../actions/ActionTypes";
 
 const initialState = {
-  userExist: '',
-  error: '',
+  userExist: "",
+  error: "",
   apiStatus: false,
-  message: '',
+  message: "",
   user: {},
-  content: '',
+  content: "",
   authenticated: false
 };
 
 /**
- * @description - User authentication reducer
+ * @description - User authentication reducer"experimentalObjectRestSpread": true
  *
  * @param {Object} state - Default application state
  *
@@ -29,10 +29,10 @@ function authReducer(state = initialState, action) {
     case UNAUTH_USER:
       return {
         ...state,
-        error: '',
+        error: "",
         user: {},
-        message: 'Successfully Logged Out',
-        authenticated: false,
+        message: "Successfully Logged Out",
+        authenticated: false
       };
     case SET_CURRENT_USER:
       return {
